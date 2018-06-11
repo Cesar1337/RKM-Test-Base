@@ -1,0 +1,46 @@
+<h1 class="text-center separator-header">Detalles del repositorio</h1>
+
+<div class="row text-center separator">
+    <div class="col-sm-5 offset-sm-2">
+        <img src="{{$ctrl.repository.owner.avatar_url}}" height="150" width="150" alt="Avatar">
+        <p><strong>Usuario (dueño):</strong> {{$ctrl.repository.owner.login}}</p>
+    </div>
+    <div class="col-sm-3">
+        <p><strong>Nombre:</strong> {{$ctrl.repository.name}}</p>
+        <p><strong>Issues abiertos:</strong> {{$ctrl.repository.open_issues_count}}</p>
+        <p><strong>Lenguaje principal:</strong> {{$ctrl.repository.language}}</p>
+    </div>
+</div>
+
+<h2 class="text-center">Lista de contribuyentes:</h2>
+<div class="row separator">
+    <div class="col-sm-2 offset-sm-3">
+        <label class="control-label">Filtrar por nombre:</label>
+        <input type="text" ng-model="$ctrl.filterString" ng-change="$ctrl.filter($ctrl.filterString,'login')"  
+             ng-model-options="{debounce: 750}" placeholder="Nombre a filtrar" class="form-control" />
+    </div>
+</div>
+<div class="col-sm-7 offset-sm-3">
+    <table class="table">
+        <th class="regular-header">Avatar</th>
+        <th></th>
+        <th ng-click="$ctrl.sort('login')">Nombre</th>
+        <th ng-click="$ctrl.sort('email')">Email</th>
+        <tr ng-repeat="contributor in $ctrl.contributors">
+            <td><img ng-src="{{contributor.avatar_url}}" height="50" width="50" alt="Avatar"></td>
+            <td></td>
+            <td>{{contributor.login}}</td>
+            <td>{{contributor.email || "Este usuario no ha configurado un correo publico"}}</td>
+        </tr>
+    </table>
+</div>
+
+
+<div class="text-center separator">
+    <a ui-sref="repository-list" class="btn btn-lg btn-primary"><i class="fa fa-arrow-circle-left"></i> Volver</a>
+</div>
+
+
+
+
+
