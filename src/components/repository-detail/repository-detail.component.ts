@@ -16,6 +16,7 @@ class RepositoryDetailController implements ng.IController {
             this.repository = response.data;
             this.githubService.getRepositoryContributors(this.repository.owner.login, this.repository.name).then(response =>{
                 this.contributors = response.data;
+                this.contributorsCopy = this.contributors;
                 /*La coleccion de contribuyentes traidas de la API, NO TRAE los correos para cada
                 uno de los contribuyentes, asi que tuve que recurrir a iterar en cada uno
                 de los contribuyentes y usar el endpoint de la API de github (users/username)
