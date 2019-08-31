@@ -1,11 +1,11 @@
-<h1 class="text-center separator-header">Detalles del repositorio</h1>
+<h1 class="text-center separator-header">Detalles del repositorio</h1> 
 
 <div class="row text-center separator">
-    <div class="col-sm-5 offset-sm-2">
-        <img src="{{$ctrl.repository.owner.avatar_url}}" height="150" width="150" alt="Avatar">
+    <div class="col-sm-3 offset-sm-3">
+        <img class="m-b-sm" src="{{$ctrl.repository.owner.avatar_url}}" height="125" width="125" alt="Avatar">
         <p><strong>Usuario (dueño):</strong> {{$ctrl.repository.owner.login}}</p>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-3 repository-info">
         <p><strong>Nombre:</strong> {{$ctrl.repository.name}}</p>
         <p><strong>Issues abiertos:</strong> {{$ctrl.repository.open_issues_count}}</p>
         <p><strong>Lenguaje principal:</strong> {{$ctrl.repository.language}}</p>
@@ -24,8 +24,8 @@
     <table class="table">
         <th class="regular-header">Avatar</th>
         <th></th>
-        <th ng-click="$ctrl.sort('login')">Nombre</th>
-        <th ng-click="$ctrl.sort('email')">Email</th>
+        <th ng-click="$ctrl.sort('login')">Nombre <i class="pull-right" ng-class="$ctrl.getSortIcon('login')"></i></th>
+        <th ng-click="$ctrl.sort('email')">Email <i class="fa fa-envelope" aria-hidden="true"></i> <i class="pull-right" ng-class="$ctrl.getSortIcon('email')"></i></th>
         <tr ng-repeat="contributor in $ctrl.contributors">
             <td><img ng-src="{{contributor.avatar_url}}" height="50" width="50" alt="Avatar"></td>
             <td></td>

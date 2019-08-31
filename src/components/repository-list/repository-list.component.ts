@@ -3,6 +3,9 @@ import { SearchStateService } from '../../services/search-state.service';
 import { TableModificationService } from '../../services/table-modification.service';
 
 class RepositoryListController implements ng.IController {
+    public loading: boolean;
+    public sortAscent: boolean;
+    public currentSortedProperty: string;
     private searchTerm: string;
     private userRepositories: any;
     private userRepositoriesCopy: any;
@@ -11,10 +14,10 @@ class RepositoryListController implements ng.IController {
     private filterString: string;
 
     constructor(private githubService: GithubService, private searchStateService: SearchStateService,
-               private tableModificationService: TableModificationService) {
+                private tableModificationService: TableModificationService) {
     }
 
-    $onInit(){
+    public $onInit() {
         const lastSearch = this.searchStateService.getLastSearch();
         this.searchTerm = lastSearch.searchTerm;
         this.userRepositories = lastSearch.searchData;
@@ -22,42 +25,67 @@ class RepositoryListController implements ng.IController {
         this.filterString = lastSearch.filterString;
     }
 
-    searchRepositories(){
-        if(this.searchTerm !== ""){
-            this.githubService.getAllRepositoriesByUsername(this.searchTerm).then(response => {
+    public searchRepositories() {
+        if (this.searchTerm !== '') {
+            this.loading = true;
+            this.githubService.getAllRepositoriesByUsername(this.searchTerm).then((response) => {
                 this.userRepositories = response.data;
                 this.userRepositoriesCopy = this.userRepositories;
                 this.currentAvatarURL = this.userRepositories[0].owner.avatar_url;
-                this.errorMessage = "";
-            }).catch(errorCallBack => {
-                this.currentAvatarURL = undefined;
-                this.userRepositories = [];
-                this.errorMessage = this.searchTerm === "" ? "" : "No se encontraron resultados por ese nombre de usuario";
+                this.errorMessage = '';
+                this.loading = false;
+            }).catch(() => {
+                this.currentAvatarURL = null;
+                this.userRepositories = null;
+                this.errorMessage = this.searchTerm === '' ?
+                                                        '' : 'No se encontraron resultados por ese nombre de usuario';
+                this.loading = false;
             });
+        } else {
+            this.errorMessage = '';
         }
     }
 
-    saveLastSearch(){
-        this.searchStateService.saveSearch(this.searchTerm, this.userRepositories, this.currentAvatarURL, this.filterString);
+    public saveLastSearch() {
+        this.searchStateService.saveSearch(this.searchTerm, this.userRepositories,
+                                        this.currentAvatarURL, this.filterString);
     }
 
-    sort(sortBy: string){
-        this.userRepositories = this.tableModificationService.sortData(this.userRepositories,sortBy);
+    public sort(sortBy: string) {
+        const { sortedData, sortAscent, sortedProperty } = this.tableModificationService
+                                                               .sortData(this.userRepositories, sortBy);
+        this.userRepositories = sortedData;
+        this.currentSortedProperty = sortedProperty;
+        this.sortAscent = sortAscent;
     }
 
-    filter(filterString: string, attribute: string){
-        if(filterString.length < 1){
+    public filter(filterString: string, attribute: string) {
+        if (filterString.length < 1) {
             this.userRepositories = this.userRepositoriesCopy;
         }
-        this.userRepositories = this.tableModificationService.filterData(this.userRepositories,filterString, attribute);
+        this.userRepositories = this.tableModificationService.filterData(this.userRepositories,
+                                                                         filterString, attribute);
     }
-    
+
+    public isCurrentSort(property: string) {
+        return this.sortAscent && this.currentSortedProperty === property;
+    }
+
+    public getSortIcon(property: string) {
+        if (this.currentSortedProperty === property) {
+            return this.sortAscent ? 'fa fa-sort-asc' : 'fa fa-sort-desc';
+        } else {
+            return 'fa fa-sort';
+        }
+    }
+
 }
 
+// tslint:disable-next-line:max-classes-per-file
 export class RepositoryListComponent implements ng.IComponentOptions {
-    static NAME:string = 'repositoryListView';
-    controller:any;
-    templateUrl:any;
+    public static NAME: string = 'repositoryListView';
+    public controller: any;
+    public templateUrl: any;
     constructor() {
        this.controller = RepositoryListController;
        this.templateUrl = './src/components/repository-list/repository-list.component.html';

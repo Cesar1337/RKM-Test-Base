@@ -1,5 +1,6 @@
 import * as angular from 'angular';
 import uiRouter from '@uirouter/angularjs';
+import 'angular-spinner';
 import './styles/app.less';
 import { RepositoryListComponent } from './components/repository-list/repository-list.component';
 import { RepositoryDetailComponent } from './components/repository-detail/repository-detail.component';
@@ -7,7 +8,7 @@ import { GithubService } from '../src/services/github.service';
 import { SearchStateService } from '../src/services/search-state.service';
 import { TableModificationService } from '../src/services/table-modification.service';
 
-export const AppModule = angular.module('app', [uiRouter])
+export const AppModule = angular.module('app', [uiRouter, 'angularSpinner'])
     .config(['$stateProvider', '$urlRouterProvider', ($stateProvider, $urlRouterProvider) => {
         $stateProvider.state({
             name: 'repository-list',
@@ -25,6 +26,4 @@ export const AppModule = angular.module('app', [uiRouter])
     .component(RepositoryDetailComponent.NAME, new RepositoryDetailComponent())
     .service(GithubService.NAME, GithubService)
     .service(SearchStateService.NAME, SearchStateService)
-    .service(TableModificationService.NAME, TableModificationService)
-
-
+    .service(TableModificationService.NAME, TableModificationService);
