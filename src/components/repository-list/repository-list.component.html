@@ -1,61 +1,95 @@
 <div class="text-center separator-header m-t-md">
-    <h1>
-        <img src="./src/assets/github.png" width="30" height="30"> Github Search
-        <img src="./src/assets/github.png" width="30" height="30">
-    </h1>
-    <h2 class="separator">Enter a username to see a list of their repositories</h2>
-    <input type="text" ng-model="$ctrl.searchTerm" ng-change="$ctrl.searchRepositories()" ng-model-options="{debounce: 750}"
-        class="form-control col-sm-4 offset-sm-4" placeholder="Ej: twbs" />
+  <h1>
+    <img src="./src/assets/github.png" width="30" height="30" /> Github Search
+    <img src="./src/assets/github.png" width="30" height="30" />
+  </h1>
+  <h2 class="separator">
+    Enter a username to see a list of their repositories
+  </h2>
+  <input
+    type="text"
+    ng-model="$ctrl.searchTerm"
+    ng-change="$ctrl.searchRepositories()"
+    ng-model-options="{debounce: 750}"
+    class="form-control col-sm-4 offset-sm-4"
+    placeholder="Ej: cesarblasco"
+  />
 </div>
 
-<span us-spinner="{radius:15, width:4, length: 16}" spinner-on="$ctrl.loading"></span>
+<span
+  us-spinner="{radius:15, width:4, length: 16}"
+  spinner-on="$ctrl.loading"
+></span>
 
 <div ng-if="!$ctrl.loading">
-    <div ng-if="$ctrl.currentAvatarURL" class="text-center separator m-t-sm">
-        <p>User Avatar</p>
-        <img ng-src="{{$ctrl.currentAvatarURL}}" height="100" width="100" alt="Avatar">
+  <div ng-if="$ctrl.currentAvatarURL" class="text-center separator m-t-sm">
+    <p>User Avatar</p>
+    <img
+      ng-src="{{ $ctrl.currentAvatarURL }}"
+      height="100"
+      width="100"
+      alt="Avatar"
+    />
+  </div>
+
+  <p class="text-danger text-center">{{ $ctrl.errorMessage }}</p>
+
+  <div ng-if="$ctrl.userRepositories && !$ctrl.errorMessage">
+    <div class="row separator">
+      <div class="col-sm-2 offset-sm-2">
+        <label class="control-label">Filter by name:</label>
+        <input
+          type="text"
+          ng-model="$ctrl.filterString"
+          ng-change="$ctrl.filter($ctrl.filterString,'name')"
+          ng-model-options="{debounce: 750}"
+          placeholder="Enter a name"
+          class="form-control"
+        />
+      </div>
     </div>
 
-    <p class="text-danger text-center">{{$ctrl.errorMessage}}</p>
-
-    <div ng-if="$ctrl.userRepositories && !$ctrl.errorMessage">
-        <div class="row separator">
-            <div class="col-sm-2 offset-sm-2">
-                <label class="control-label">Filter by name:</label>
-                <input type="text" ng-model="$ctrl.filterString" ng-change="$ctrl.filter($ctrl.filterString,'name')" ng-model-options="{debounce: 750}"
-                    placeholder="Enter a name" class="form-control" />
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-8 offset-sm-2 separator">
-                <table class="table">
-                    <th ng-click="$ctrl.sort('name')">Name
-                        <i class="pull-right" ng-class="$ctrl.getSortIcon('name')"></i>
-                    </th>
-                    <th ng-click="$ctrl.sort('language')">Main Language
-                        <i class="pull-right" ng-class="$ctrl.getSortIcon('language')"></i>
-                    </th>
-                    <th ng-click="$ctrl.sort('stargazers_count')">Stars
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                        <i class="pull-right" ng-class="$ctrl.getSortIcon('stargazers_count')"></i>
-                    </th>
-                    <th></th>
-                    <tr ng-repeat="repository in $ctrl.userRepositories">
-                        <td>{{repository.name}}</td>
-                        <td>{{repository.language || 'N/A'}}</td>
-                        <td>{{repository.stargazers_count}}</td>
-                        <td>
-                            <a ng-click="$ctrl.saveLastSearch()" ui-sref="repository-detail({id: repository.id})">
-                                <i class="fa fa-search"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr ng-if="!$ctrl.userRepositories.length">
-                        <td colspan="6" class="text-center">No results found by that term or the user doesn't own any repositories</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+    <div class="row">
+      <div class="col-sm-8 offset-sm-2 separator">
+        <table class="table">
+          <th ng-click="$ctrl.sort('name')">
+            Name
+            <i class="pull-right" ng-class="$ctrl.getSortIcon('name')"></i>
+          </th>
+          <th ng-click="$ctrl.sort('language')">
+            Main Language
+            <i class="pull-right" ng-class="$ctrl.getSortIcon('language')"></i>
+          </th>
+          <th ng-click="$ctrl.sort('stargazers_count')">
+            Stars
+            <i class="fa fa-star" aria-hidden="true"></i>
+            <i
+              class="pull-right"
+              ng-class="$ctrl.getSortIcon('stargazers_count')"
+            ></i>
+          </th>
+          <th></th>
+          <tr ng-repeat="repository in $ctrl.userRepositories">
+            <td>{{ repository.name }}</td>
+            <td>{{ repository.language || "N/A" }}</td>
+            <td>{{ repository.stargazers_count }}</td>
+            <td>
+              <a
+                ng-click="$ctrl.saveLastSearch()"
+                ui-sref="repository-detail({id: repository.id})"
+              >
+                <i class="fa fa-search"></i>
+              </a>
+            </td>
+          </tr>
+          <tr ng-if="!$ctrl.userRepositories.length">
+            <td colspan="6" class="text-center">
+              No results found by that term or the user doesn't own any
+              repositories
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
+  </div>
 </div>
