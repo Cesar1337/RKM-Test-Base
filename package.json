@@ -4,7 +4,8 @@
   "description": "Rankmi's test for candidates",
   "main": "src/app.ts",
   "scripts": {
-    "start": "webpack-dev-server --open"
+    "start": "webpack-dev-server --open",
+    "build": "webpack --config webpack.config.js"
   },
   "repository": {
     "type": "git",
