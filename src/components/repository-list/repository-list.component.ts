@@ -42,10 +42,7 @@ class RepositoryListController implements ng.IController {
         .catch(() => {
           this.currentAvatarURL = null;
           this.userRepositories = null;
-          this.errorMessage =
-            this.searchTerm === ""
-              ? ""
-              : "No se encontraron resultados por ese nombre de usuario";
+          this.errorMessage = this.searchTerm === "" ? "" : "No results found";
           this.loading = false;
         });
     } else {

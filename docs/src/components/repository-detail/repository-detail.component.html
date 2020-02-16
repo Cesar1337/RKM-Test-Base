@@ -1,0 +1,72 @@
+<h1 class="text-center separator-header">Detalles del repositorio</h1>
+
+<div class="row text-center separator">
+  <div class="col-sm-3 offset-sm-3">
+    <img
+      class="m-b-sm"
+      src="{{ $ctrl.repository.owner.avatar_url }}"
+      height="125"
+      width="125"
+      alt="Avatar"
+    />
+    <p><strong>User (owner):</strong> {{ $ctrl.repository.owner.login }}</p>
+  </div>
+  <div class="col-sm-3 repository-info">
+    <p><strong>Name:</strong> {{ $ctrl.repository.name }}</p>
+    <p>
+      <strong>Open Issues:</strong> {{ $ctrl.repository.open_issues_count }}
+    </p>
+    <p><strong>Main Language:</strong> {{ $ctrl.repository.language }}</p>
+  </div>
+</div>
+
+<h2 class="text-center">Contributors List:</h2>
+<div class="row separator">
+  <div class="col-sm-2 offset-sm-3">
+    <label class="control-label">Filter by name:</label>
+    <input
+      type="text"
+      ng-model="$ctrl.filterString"
+      ng-change="$ctrl.filter($ctrl.filterString,'login')"
+      ng-model-options="{debounce: 750 }"
+      placeholder="Enter a name"
+      class="form-control"
+    />
+  </div>
+</div>
+<div class="col-sm-7 offset-sm-3">
+  <table class="table">
+    <th class="regular-header">Avatar</th>
+    <th></th>
+    <th ng-click="$ctrl.sort('login')">
+      Name
+      <i class="pull-right" ng-class="$ctrl.getSortIcon('login')"></i>
+    </th>
+    <th ng-click="$ctrl.sort('email')">
+      Email
+      <i class="fa fa-envelope" aria-hidden="true"></i>
+      <i class="pull-right" ng-class="$ctrl.getSortIcon('email')"></i>
+    </th>
+    <tr ng-repeat="contributor in $ctrl.contributors">
+      <td>
+        <img
+          ng-src="{{ contributor.avatar_url }}"
+          height="50"
+          width="50"
+          alt="Avatar"
+        />
+      </td>
+      <td></td>
+      <td>{{ contributor.login }}</td>
+      <td>
+        {{ contributor.email || "This user hasn't set up a public email" }}
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div class="text-center separator">
+  <a ui-sref="repository-list" class="btn btn-lg btn-primary">
+    <i class="fa fa-arrow-circle-left"></i> Go back</a
+  >
+</div>
