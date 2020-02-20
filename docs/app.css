@@ -11315,6 +11315,22 @@ a.text-dark:hover, a.text-dark:focus {
   overflow: visible;
   clip: auto;
 }
+@media (max-width: 367px) {
+  h1 {
+    font-size: 2rem;
+  }
+}
+@media (max-width: 367px) {
+  h1 img {
+    width: 20px;
+    height: 20px;
+  }
+}
+@media (max-width: 367px) {
+  h2 {
+    font-size: 1.5rem;
+  }
+}
 th .fa.fa-star {
   color: gold;
 }
@@ -11325,7 +11341,7 @@ th:hover:not(.regular-header) {
   color: orange;
 }
 th:after(.regular-header) {
-  content: "asas";
+  content: "";
 }
 img {
   border-radius: 50%;
