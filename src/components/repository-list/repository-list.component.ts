@@ -1,6 +1,7 @@
 import { GithubService } from "../../services/github.service";
 import { SearchStateService } from "../../services/search-state.service";
 import { TableModificationService } from "../../services/table-modification.service";
+import { SharedService } from "../../services/shared-service";
 
 class RepositoryListController implements ng.IController {
   public loading: boolean;
@@ -16,7 +17,8 @@ class RepositoryListController implements ng.IController {
   constructor(
     private githubService: GithubService,
     private searchStateService: SearchStateService,
-    private tableModificationService: TableModificationService
+    private tableModificationService: TableModificationService,
+    private sharedService: SharedService
   ) {}
 
   public $onInit() {
@@ -39,11 +41,16 @@ class RepositoryListController implements ng.IController {
           this.errorMessage = "";
           this.loading = false;
         })
-        .catch(() => {
+        .catch(error => {
           this.currentAvatarURL = null;
           this.userRepositories = null;
-          this.errorMessage = this.searchTerm === "" ? "" : "No results found";
           this.loading = false;
+          if (error.status === 403) {
+            this.errorMessage = ``;
+          } else {
+            this.errorMessage =
+              this.searchTerm === "" ? "" : "No results found by that term.";
+          }
         });
     } else {
       this.errorMessage = "";
@@ -81,16 +88,12 @@ class RepositoryListController implements ng.IController {
     );
   }
 
-  public isCurrentSort(property: string) {
-    return this.sortAscent && this.currentSortedProperty === property;
-  }
-
   public getSortIcon(property: string) {
-    if (this.currentSortedProperty === property) {
-      return this.sortAscent ? "fa fa-sort-asc" : "fa fa-sort-desc";
-    } else {
-      return "fa fa-sort";
-    }
+    return this.sharedService.getSortIcon(
+      this.sortAscent,
+      this.currentSortedProperty,
+      property
+    );
   }
 }
 

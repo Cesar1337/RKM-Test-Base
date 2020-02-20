@@ -1,24 +1,47 @@
 export class GithubService {
-    public static $inject = ['$q', '$http'];
-    public static NAME: string = 'githubService';
+  public static $inject = ["$q", "$http"];
+  public static NAME: string = "githubService";
 
-    private baseUrl = 'https://api.github.com/';
+  public githubRateLimit: any;
 
-    constructor(protected $q: ng.IQService, protected $http: ng.IHttpService) {}
+  private baseUrl = "https://api.github.com/";
 
-    public getAllRepositoriesByUsername(username: string): angular.IHttpPromise<any> {
-        return this.$http.get(`${this.baseUrl}users/${username}/repos`);
-    }
+  constructor(protected $q: ng.IQService, protected $http: ng.IHttpService) {}
 
-    public getRepositoryById(id: number): angular.IHttpPromise<any> {
-        return this.$http.get(`${this.baseUrl}repositories/${id}`);
-    }
+  public getAllRepositoriesByUsername(
+    username: string
+  ): angular.IHttpPromise<any> {
+    this.getRateLimit();
+    return this.$http.get(`${this.baseUrl}users/${username}/repos`);
+  }
 
-    public getRepositoryContributors(username: string, repositoryName: string): angular.IHttpPromise<any> {
-        return this.$http.get(`${this.baseUrl}repos/${username}/${repositoryName}/contributors`);
-    }
+  public getRepositoryById(id: number): angular.IHttpPromise<any> {
+    this.getRateLimit();
+    return this.$http.get(`${this.baseUrl}repositories/${id}`);
+  }
 
-    public getUserByUsername(username: string) {
-        return this.$http.get(`${this.baseUrl}users/${username}`);
-    }
+  public getRepositoryContributors(
+    username: string,
+    repositoryName: string
+  ): angular.IHttpPromise<any> {
+    this.getRateLimit();
+    return this.$http.get(
+      `${this.baseUrl}repos/${username}/${repositoryName}/contributors`
+    );
+  }
+
+  public getUserByUsername(username: string) {
+    this.getRateLimit();
+    return this.$http.get(`${this.baseUrl}users/${username}`);
+  }
+
+  public getRateLimit() {
+    return this.$http.get(`${this.baseUrl}rate_limit`).then(({ data }: any) => {
+      this.githubRateLimit = data.resources.core;
+
+      console.log("ghh ser", this.githubRateLimit);
+
+      console.log("reset in --->", new Date(this.githubRateLimit.reset * 1000));
+    });
+  }
 }

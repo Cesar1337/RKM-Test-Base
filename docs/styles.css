@@ -11357,10 +11357,20 @@ img {
 .m-t-md {
   margin-top: 10px;
 }
+.m-t-lg {
+  margin-top: 20px;
+}
+.m-t-xl {
+  margin-top: 30px;
+}
 .m-b-sm {
   margin-bottom: 5px;
 }
 .repository-info {
   margin-top: 30px;
+}
+.center {
+  margin-right: auto;
+  margin-left: auto;
 }
 

@@ -1,5 +1,6 @@
 import { GithubService } from "../../services/github.service";
 import { TableModificationService } from "../../services/table-modification.service";
+import { SharedService } from "../../services/shared-service";
 
 class RepositoryDetailController implements ng.IController {
   public sortAscent: boolean;
@@ -11,7 +12,8 @@ class RepositoryDetailController implements ng.IController {
   constructor(
     private $stateParams,
     private githubService: GithubService,
-    private tableModificationService: TableModificationService
+    private tableModificationService: TableModificationService,
+    private sharedService: SharedService
   ) {}
 
   public $onInit() {
@@ -61,20 +63,15 @@ class RepositoryDetailController implements ng.IController {
     );
   }
 
-  public isCurrentSort(property: string) {
-    return this.sortAscent && this.currentSortedProperty === property;
-  }
-
   public getSortIcon(property: string) {
-    if (this.currentSortedProperty === property) {
-      return this.sortAscent ? "fa fa-sort-asc" : "fa fa-sort-desc";
-    } else {
-      return "fa fa-sort";
-    }
+    this.sharedService.getSortIcon(
+      this.sortAscent,
+      this.currentSortedProperty,
+      property
+    );
   }
 }
 
-// tslint:disable-next-line:max-classes-per-file
 export class RepositoryDetailComponent implements ng.IComponentOptions {
   public static NAME: string = "repositoryDetailView";
   public controller: any;

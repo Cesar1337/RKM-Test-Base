@@ -14,7 +14,7 @@ var TableModificationService = /** @class */ (function () {
             var attr1 = a[sortBy];
             var attr2 = b[sortBy];
             if (attr1 !== null && attr2 !== null) {
-                if (typeof (attr1) !== 'number') {
+                if (typeof attr1 !== "number") {
                     // Si el dato es distinto de numero poner a lowercase, si no entonces no hacer nada
                     // y procesarlos como numeros directamente para su comparacion
                     attr1 = attr1.toLocaleLowerCase();
@@ -30,12 +30,19 @@ var TableModificationService = /** @class */ (function () {
             else if (attr2 === null) {
                 return -1;
             }
-            return _this.sortAscent ? attr1 < attr2 ? 1 : -1 : attr1 < attr2 ? -1 : 1;
+            return _this.sortAscent
+                ? attr1 < attr2
+                    ? 1
+                    : -1
+                : attr1 < attr2
+                    ? -1
+                    : 1;
         });
         return { sortedData: sortedData, sortAscent: this.sortAscent, sortedProperty: sortBy };
     };
     TableModificationService.prototype.filterData = function (data, filterString, attribute) {
         var filteredData = [];
+        filterString = filterString.toLocaleLowerCase();
         data.forEach(function (value) {
             var name = value[attribute].toLocaleLowerCase();
             if (name.indexOf(filterString) !== -1) {
@@ -44,7 +51,7 @@ var TableModificationService = /** @class */ (function () {
         });
         return filteredData;
     };
-    TableModificationService.NAME = 'tableModificationService';
+    TableModificationService.NAME = "tableModificationService";
     return TableModificationService;
 }());
 export { TableModificationService };

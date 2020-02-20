@@ -1,0 +1,20 @@
+<div
+  class="col-sm-7 center alert alert-warning separator center text-center separator"
+  ng-if="$ctrl.githubService.githubRateLimit"
+>
+  <strong>Warning: </strong>A maximum of
+  <b>{{ $ctrl.githubService.githubRateLimit.limit }}</b> requests are available
+  per hour and you have
+  <b>{{ $ctrl.githubService.githubRateLimit.remaining }}</b> left.
+  <a href="https://developer.github.com/v3/#rate-limiting"
+    >(Github API limit.)</a
+  >
+</div>
+
+<p
+  ng-if="$ctrl.githubService.githubRateLimit.remaining === 0"
+  class="text-danger text-center m-t-xl"
+>
+  Error 403: API rate limit exceeded. New requests available at
+  {{ $ctrl.getResetDayAndTime() }}.
+</p>

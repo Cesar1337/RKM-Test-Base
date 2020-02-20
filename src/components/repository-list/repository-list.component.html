@@ -12,18 +12,21 @@
       ng-model="$ctrl.searchTerm"
       ng-change="$ctrl.searchRepositories()"
       ng-model-options="{debounce: 750}"
-      class="form-control col-sm-4 offset-sm-4"
+      class="form-control col-sm-6 center"
       placeholder="Example: cesarblasco, twbs, reactjs, angular"
     />
   </div>
 
   <span
+    class="m-t-xl"
     us-spinner="{radius:15, width:4, length: 16}"
     spinner-on="$ctrl.loading"
   ></span>
 
-  <div ng-if="!$ctrl.loading">
-    <div ng-if="$ctrl.currentAvatarURL" class="text-center separator m-t-sm">
+  <div ng-if="!$ctrl.loading" class="m-t-md">
+    <github-rate-limit-alert></github-rate-limit-alert>
+
+    <div ng-if="$ctrl.currentAvatarURL" class="text-center separator m-t-xl">
       <p>User Avatar</p>
       <img
         ng-src="{{ $ctrl.currentAvatarURL }}"
@@ -33,7 +36,7 @@
       />
     </div>
 
-    <p class="text-danger text-center">{{ $ctrl.errorMessage }}</p>
+    <p class="text-danger text-center m-t-xl">{{ $ctrl.errorMessage }}</p>
 
     <div ng-if="$ctrl.userRepositories && !$ctrl.errorMessage">
       <div class="row separator">
