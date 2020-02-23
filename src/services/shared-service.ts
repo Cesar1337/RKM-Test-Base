@@ -8,8 +8,7 @@ export class SharedService {
   ) {
     if (currentSortedProperty === property) {
       return sortAscent ? "fa fa-sort-asc" : "fa fa-sort-desc";
-    } else {
-      return "fa fa-sort";
     }
+    return "fa fa-sort";
   }
 }

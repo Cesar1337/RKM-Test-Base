@@ -25,8 +25,6 @@ var GithubService = /** @class */ (function () {
         return this.$http.get(this.baseUrl + "rate_limit").then(function (_a) {
             var data = _a.data;
             _this.githubRateLimit = data.resources.core;
-            console.log("ghh ser", _this.githubRateLimit);
-            console.log("reset in --->", new Date(_this.githubRateLimit.reset * 1000));
         });
     };
     GithubService.$inject = ["$q", "$http"];

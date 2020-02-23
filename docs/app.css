@@ -11389,4 +11389,9 @@ img {
   margin-right: auto;
   margin-left: auto;
 }
+@media (max-width: 675px) {
+  .decoration-icon {
+    display: none;
+  }
+}
 

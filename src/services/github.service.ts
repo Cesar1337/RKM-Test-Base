@@ -38,10 +38,6 @@ export class GithubService {
   public getRateLimit() {
     return this.$http.get(`${this.baseUrl}rate_limit`).then(({ data }: any) => {
       this.githubRateLimit = data.resources.core;
-
-      console.log("ghh ser", this.githubRateLimit);
-
-      console.log("reset in --->", new Date(this.githubRateLimit.reset * 1000));
     });
   }
 }

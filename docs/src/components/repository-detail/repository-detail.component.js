@@ -40,7 +40,7 @@ var RepositoryDetailController = /** @class */ (function () {
         this.contributors = this.tableModificationService.filterData(this.contributors, filterString, attribute);
     };
     RepositoryDetailController.prototype.getSortIcon = function (property) {
-        this.sharedService.getSortIcon(this.sortAscent, this.currentSortedProperty, property);
+        return this.sharedService.getSortIcon(this.sortAscent, this.currentSortedProperty, property);
     };
     return RepositoryDetailController;
 }());

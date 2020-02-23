@@ -64,7 +64,7 @@ class RepositoryDetailController implements ng.IController {
   }
 
   public getSortIcon(property: string) {
-    this.sharedService.getSortIcon(
+    return this.sharedService.getSortIcon(
       this.sortAscent,
       this.currentSortedProperty,
       property
